@@ -1,6 +1,5 @@
 #! /usr/bin/env node
 
-const fs = require('fs');
 const Client = require('ftp');
 const argv = require('yargs').argv;
 
