@@ -2,10 +2,10 @@
 
 const Client = require('ftp');
 const argv = require('yargs').argv;
+const lib = require('./lib');
 
 require('dotenv').config();
 
-const lib = require('./lib');
 
 const client = new Client();
 const clientLib = lib(client);
