@@ -2,17 +2,17 @@
 
 const Client = require('ftp');
 const argv = require('yargs').argv;
+const lib = require('./lib');
 
 require('dotenv').config();
 
-const lib = require('./lib');
 
 const client = new Client();
-const clientLib = lib(client);
+const clientLib = lib({ client, storagePath: process.env.LOCAL_STORAGE_PATH });
 
 client
 	.on('greeting', console.log)
-	.on('ready', () => {
+	.on('ready', function onClientReady() {
 		console.log('Client connection ready!');
 
 		if (argv.upload) {
@@ -23,7 +23,7 @@ client
 			return clientLib.get(argv.fileName);
 		}
 	})
-	.on('error', (...errors) => {
+	.on('error', function onError(...errors) {
 		console.log(JSON.stringify(errors, null, 2));
 		process.exit(1);
 	})
@@ -33,5 +33,5 @@ client.connect({
 	host: process.env.FTP_HOST,
 	user: process.env.FTP_USER,
 	password: process.env.FTP_PASSWORD,
-	keepalive: false
+	keepalive: false,
 });
